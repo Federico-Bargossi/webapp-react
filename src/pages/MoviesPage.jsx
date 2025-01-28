@@ -4,8 +4,11 @@ import MovieCard from "../components/MovieCard";
 
 function MoviesPage() {
 
+    const genres = ["science fiction", "crime", "romance", "action"];
+
     const [movies, setMovie] = useState([]);
     const [search, setSearch] = useState([]);
+    const [selectedGenre, setSelectedGenre] = useState("")
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -15,6 +18,11 @@ function MoviesPage() {
         if (search.length > 0) {
             params.search = search
         }
+
+        if (selectedGenre !== "") {
+            params.genre = genres[selectedGenre]
+        }
+
         axios.get(`${backendUrl}/movies`, { params }).then((resp) => {
             setMovie(resp.data.data);
         })
@@ -23,7 +31,7 @@ function MoviesPage() {
     //PER FARE LA CHIAMATA AL CARICAMENTO DELLA PAGINA
     useEffect(() => {
         getMovie()
-    }, []);
+    }, [selectedGenre]);
 
     return (
         <>
@@ -33,6 +41,11 @@ function MoviesPage() {
             </section>
             <section>
                 <div className="my-4 d-flex">
+                    <select name="" id="" value={selectedGenre} onChange={(event) => setSelectedGenre(event.target.value)}>
+                        <option value="">Tutti</option>
+                        {genres.map((cureGenre, index) => <option key={index} value={index}>{cureGenre}</option>
+                        )}
+                    </select>
                     <input value={search} onChange={(event) => setSearch(event.target.value)} type="search" className="form-control" aria-label="Cerca film" placeholder="Cerca un film digitando una parola chiave" />
                     <button onClick={getMovie} className="btn btn-primary ms-2">Cerca</button>
                 </div>
@@ -47,8 +60,8 @@ function MoviesPage() {
                                 )
                             })}
                         </div>
-                    ):(
-                       <div className="alert alert-warning">Non è stato trovato nessun Film</div> 
+                    ) : (
+                        <div className="alert alert-warning">Non è stato trovato nessun Film</div>
                     )
                 }
 
