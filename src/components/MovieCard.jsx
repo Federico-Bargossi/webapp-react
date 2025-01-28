@@ -10,7 +10,7 @@ function MovieCard({ movie }) {
             <div className="card-body">
                 <h5 className="card-title">{movie.title} <br /> {movie.director}</h5>
                 <p className="card-text">{movie.abstract}</p>
-                <Link className="btn btn-primary" to={`/movies/${movie.id}`}>Mostra Dettagli</Link>
+                <Link className="btn btn-primary" to={`/movies/${movie.slug}`}>Mostra Dettagli</Link>
             </div>
         </div>
     )

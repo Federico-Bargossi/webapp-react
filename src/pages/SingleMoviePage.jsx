@@ -5,12 +5,12 @@ import ReviewCard from "../components/ReviewCard";
 
 function SingleMoviePage() {
 
-    const { id } = useParams()
+    const { slug } = useParams()
     const [movie, setMovie] = useState(null);
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     useState(() => {
-        axios.get(`${backendUrl}/movies/${id}`).then((resp) => {
+        axios.get(`${backendUrl}/movies/${slug}`).then((resp) => {
             console.log(resp);
             setMovie(resp.data.data);
         })
