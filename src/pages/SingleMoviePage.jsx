@@ -12,12 +12,25 @@ function SingleMoviePage() {
     const [movie, setMovie] = useState(null);
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-    useState(() => {
+    const getMovie = () => {
         axios.get(`${backendUrl}/movies/${slug}`).then((resp) => {
             console.log(resp);
             setMovie(resp.data.data);
         })
+    }
+
+    useState(() => {
+        getMovie();
     }, []);
+
+    const storeReview = (formData) => {
+        console.log("submit reviw", movie.id, formData);
+        axios.post(`${backendUrl}/movies/${movie.id}/reviews`, formData)
+        .then((resp) => {
+            console.log(resp);
+            getMovie();
+        })
+    }
 
     return (
         <>
@@ -42,7 +55,7 @@ function SingleMoviePage() {
                         <div className="row justify-content-center">
                             <div className="col-8">
                                 <h2 className="text-center">Invia una nuova recensione</h2>
-                                <ReviewForm />
+                                <ReviewForm onSubmitFuncion={storeReview}/>
                             </div>
                         </div>
                     </section>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ReviewForm() {
+function ReviewForm({onSubmitFuncion}) {
 
     const initialValues = {
         name: "",
@@ -22,7 +22,10 @@ function ReviewForm() {
     }
 
     return (
-        <form>
+        <form onSubmit={(event) => {
+            event.preventDefault();
+            onSubmitFuncion(formData);
+        }}>
             <div className="mb-3">
                 <label htmlFor="username" className="form-label">Nome utente</label>
                 <input name="name" value={formData.name} type="text" className="form-control" id="username" onChange={setFielValue} />
